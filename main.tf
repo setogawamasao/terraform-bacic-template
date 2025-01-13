@@ -30,7 +30,7 @@ provider "aws" {
   region     = "ap-northeast-1"
 }
 
-//　定数
+// 定数
 locals {
   project-name = "setotogawa-test"
 }
