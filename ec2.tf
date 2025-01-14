@@ -26,6 +26,10 @@ resource "aws_instance" "web-service-ec2-01" {
   }
 }
 
+##########################################
+# EC2 Instance Connect Endpointおよびセキュリティグループの作成
+# EC2に接続するため
+##########################################
 resource "aws_ec2_instance_connect_endpoint" "web-service-ec2-instance-connect-endpoint" {
   subnet_id          = aws_subnet.web-service-subnet-private.id
   security_group_ids = [aws_security_group.web-service-securitygroup-ssh-eic.id]
