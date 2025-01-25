@@ -4,22 +4,11 @@
 resource "aws_instance" "web-service-ec2-01" {
   ami                         = "ami-03dceaabddff8067e"
   associate_public_ip_address = "false"
-  instance_type               = "t3a.nano"
+  instance_type               = "t3a.small"
   subnet_id                   = aws_subnet.web-service-subnet-private.id
   vpc_security_group_ids      = [aws_security_group.web-service-securitygroup-private-subnet-ec2.id, aws_security_group.web-service-securitygroup-ssh-ec2.id]
   depends_on                  = [aws_nat_gateway.web-service-natgateway]
-  user_data                   = <<EOF
-  #!/bin/bash
-  yum install -y httpd
-  systemctl start httpd
-  systemctl enable httpd
-  usermod -a -G apache ec2-user
-  chown -R ec2-user:apache /var/www
-  chmod 2775 /var/www
-  find /var/www -type d -exec chmod 2775 {} \;
-  find /var/www -type f -exec chmod 0664 {} \;
-  echo "Hello World" > /var/www/html/index.html
-  EOF
+  user_data                   = file("./user_data.sh")
   tags = {
     Name    = "${local.project-name}-ec2-01",
     Project = "${local.project-name}",
