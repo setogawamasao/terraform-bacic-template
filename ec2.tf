@@ -8,7 +8,7 @@ resource "aws_instance" "web-service-ec2-01" {
   subnet_id                   = aws_subnet.web-service-subnet-private.id
   vpc_security_group_ids      = [aws_security_group.web-service-securitygroup-private-subnet-ec2.id, aws_security_group.web-service-securitygroup-ssh-ec2.id]
   depends_on                  = [aws_nat_gateway.web-service-natgateway]
-  user_data                   = file("./user_data.sh")
+  user_data                   = file("./user-data.sh")
   tags = {
     Name    = "${local.project-name}-ec2-01",
     Project = "${local.project-name}",
